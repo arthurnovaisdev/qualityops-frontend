@@ -1,27 +1,78 @@
-# QualityOps AI — frontend
+# QualityOps AI Frontend
 
-Frontend React/Vite/TypeScript integrado aos contratos do backend em `C:\Projects\qualityops`.
+Frontend for **QualityOps AI**, a quality management platform focused on complaints, investigations, corrective actions and AI-assisted analysis.
 
-## Desenvolvimento
+Built with **React, Vite and TypeScript**, the interface connects to the QualityOps AI backend and provides a complete workflow for quality teams.
 
-```bash
-npm install
-npm run dev
-```
+## Features
 
-O Vite encaminha `/api` para `http://localhost:8080` por padrão. Para outra porta local, defina `VITE_API_PROXY_TARGET` ao iniciar o servidor. Em produção, sirva frontend e `/api` na mesma origem via proxy reverso para que os cookies funcionem corretamente.
+- Authentication with JWT via HttpOnly cookies
+- CSRF protection
+- Role-based interface
+- Dashboard
+- Customer management
+- Product management
+- Lot management
+- Complaint management
+- Complaint workspace
+- Evidence management
+- Human-led investigations
+- Corrective action tracking
+- AI-assisted investigation analysis
+- AI suggestions with human review
+- Semantic similar-case search
+- AI execution audit
+- Session restoration after page refresh
 
-## Segurança e sessão
+## AI Integration
 
-- O backend define `access_token` como cookie HttpOnly. O frontend não lê nem persiste o JWT.
-- Antes de cada requisição mutável, o cliente chama `GET /api/auth/csrf`. O Axios lê o cookie `XSRF-TOKEN` e envia `X-XSRF-TOKEN`, conforme `csrf.spa()` no backend.
-- A identidade do usuário fica apenas em memória e é restaurada por `GET /api/auth/me` enquanto o cookie HttpOnly for válido.
-- A interface limita opções por perfil para usabilidade; o backend continua responsável por toda autorização.
+The frontend integrates with the QualityOps AI agent to provide:
 
-## Limitações dos contratos atuais
+- Investigation hypotheses
+- Missing information detection
+- Suggested next steps
+- AI-generated suggestions
+- Similar complaint discovery
 
-- Histórico do caso: não há endpoint de eventos. A tela mostra apenas datas e estado atual da reclamação.
-- Evidências: o backend aceita `fileUrl` como texto, sem endpoint de upload.
-- Auditoria da IA usa `GET /api/admin/agent-executions` e permanece restrita a `ADMIN`.
-- Casos semelhantes usam `GET /api/complaints/{complaintId}/similar` para `ADMIN` e `QUALITY_ANALYST`.
-- A resposta da análise da IA não possui endpoint de consulta posterior; fica visível apenas na sessão atual da página.
+AI outputs are presented as assistance only.
+
+The AI cannot independently:
+
+- confirm root cause;
+- close investigations;
+- close complaints;
+- change business status;
+- make final quality decisions.
+
+Final decisions remain under human control.
+
+## Tech Stack
+
+- React
+- TypeScript
+- Vite
+- React Router
+- Axios
+- React Query
+- React Hook Form
+- Zod
+- Material UI
+
+## Security
+
+The frontend follows the security model implemented by the backend:
+
+- JWT stored only in HttpOnly cookies
+- No JWT storage in localStorage or sessionStorage
+- CSRF protection for mutating requests
+- Role-based UI
+- Backend remains responsible for authorization
+- No secrets or credentials stored in frontend code
+
+## User Roles
+
+- `ADMIN`
+- `QUALITY_ANALYST`
+- `USER`
+
+Administrative features such as user management and AI audit are restricted according to backend permissions.
